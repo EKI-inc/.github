@@ -1,0 +1,113 @@
+name: Bug fix
+description: Report a defect and track the work needed to fix it.
+title: "Bug fix: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for defects, regressions, broken workflows, incorrect outputs, or unexpected behavior.
+
+        If this is new work rather than broken behavior, use the Task form instead.
+
+  - type: input
+    id: bug-title
+    attributes:
+      label: Bug fix title
+      description: Short title for the broken behavior or needed fix.
+      placeholder: "Example: Gallery refresh leaves stale preview source in summary table."
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Issue description
+      description: Describe the issue and where it appears.
+      placeholder: "What is broken, incorrect, missing, or unexpected?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Provide a step-by-step guide to reproducing the issue.
+      placeholder: |
+        1. Go to ...
+        2. Run ...
+        3. See ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Describe what should happen instead.
+      placeholder: "What should the user, workflow, script, report, or application do?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: Describe what currently happens.
+      placeholder: "What happens now?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution-fix-description
+    attributes:
+      label: Solution / fix description
+      description: Describe known or proposed approaches to fix or mitigate the issue.
+      placeholder: "If known, describe the expected fix, workaround, or affected code path."
+    validations:
+      required: false
+
+  - type: textarea
+    id: test-cases
+    attributes:
+      label: Test cases
+      description: Detail the tests or checks that should confirm the fix.
+      placeholder: |
+        - [ ] Reproduction case no longer fails.
+        - [ ] Regression check passes.
+        - [ ] Related workflow, report, or UI path still works.
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include browser, operating system, workflow run, branch, commit, deployment environment, or relevant input data.
+      placeholder: |
+        Browser/OS:
+        Branch/commit:
+        Workflow run:
+        Environment:
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - label: Blocks active work.
+        - label: Affects production or a client-facing output.
+        - label: Affects data accuracy, reporting, modeling, or decision support.
+        - label: Affects automation, deployment, credentials, or IT-managed systems.
+        - label: Involves client-confidential, regulated, sensitive, or restricted data.
+        - label: Impact is unknown and needs triage.
+
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional information
+      description: Add related issues, PRs, screenshots, logs, SQL commands, migration notes, or other context.
+      placeholder: "Links, screenshots, logs, commands, or other notes."
+    validations:
+      required: false

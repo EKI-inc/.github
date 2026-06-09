@@ -7,6 +7,8 @@ GitHub uses files from this repository only when a target repository does not de
 ## Defaults
 
 - [Digital project / IT intake](.github/ISSUE_TEMPLATE/project-intake.yml): rendered issue form for early routing before repository setup, access changes, infrastructure, data/risk review, or IT coordination.
+- [Task](.github/ISSUE_TEMPLATE/task.yml): rendered issue form for actionable work, follow-ups, fixes, documentation updates, and implementation steps.
+- [Bug fix](.github/ISSUE_TEMPLATE/bug-fix.yml): rendered issue form for defects, regressions, reproduction steps, expected behavior, fix notes, and test cases.
 - [Application gallery inventory](.github/ISSUE_TEMPLATE/gallery-inventory.yml): rendered issue form for collecting metadata that can be translated into `.github/eki-inventory.yml` in the source repository.
 - [Pull request template](.github/PULL_REQUEST_TEMPLATE.md): default pull request checklist for scope, linked work, review focus, urgency, LOE, risk, validation, merge ownership, and follow-up work.
 
