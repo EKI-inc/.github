@@ -1,0 +1,37 @@
+name: Create gallery inventory PR
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Gallery inventory issue number in EKI-inc/.github
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  create-gallery-inventory-pr:
+    name: Create gallery inventory PR
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'issues' && startsWith(github.event.issue.title, 'Gallery inventory:'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create or update inventory PR
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TARGET_REPO_TOKEN: ${{ secrets.ORG_INVENTORY_PR_TOKEN }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_API_URL: ${{ github.api_url }}
+          ISSUE_NUMBER: ${{ inputs.issue_number || '' }}
+        run: node scripts/create-gallery-inventory-pr.mjs

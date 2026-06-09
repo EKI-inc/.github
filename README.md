@@ -12,6 +12,16 @@ GitHub uses files from this repository only when a target repository does not de
 - [Application gallery inventory](.github/ISSUE_TEMPLATE/gallery-inventory.yml): rendered issue form for collecting metadata that can be translated into `.github/eki-inventory.yml` in the source repository.
 - [Pull request template](.github/PULL_REQUEST_TEMPLATE.md): default pull request checklist for scope, linked work, review focus, urgency, LOE, risk, validation, merge ownership, and follow-up work.
 
+## Automation
+
+- [Create gallery inventory PR](.github/workflows/create-gallery-inventory-pr.yml): when an organization member or collaborator opens a `Gallery inventory:` issue in this repository, the workflow parses the issue form and opens or updates a pull request adding `.github/eki-inventory.yml` in the submitted `EKI-inc` repository URL.
+
+The gallery inventory workflow requires a repository secret named `ORG_INVENTORY_PR_TOKEN`. Use a GitHub App token or fine-grained personal access token with access to the target repositories and these permissions:
+
+- Contents: read/write
+- Pull requests: read/write
+- Metadata: read
+
 ## Notes For Maintainers
 
 - Keep this repository public and free of private scripts, internal runbooks, secrets, or client-specific material.
