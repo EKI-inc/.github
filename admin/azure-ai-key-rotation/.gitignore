@@ -1,5 +1,0 @@
-key_rotation_manifest.csv
-key_rotation_results_*.csv
-key_rotation_discovery_*.csv
-*.key_read_failures.csv
-*.secret_read_failures.csv

@@ -1,0 +1,166 @@
+name: Digital project / IT intake
+description: Start a GitHub project conversation before repository setup, contracting, or major technical work.
+title: "Digital project intake: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for early routing before repository setup, first commits to `main`, contracting decisions, infrastructure requests, credential setup, automation, data handling, or other technical coordination.
+
+        Keep this intake high-level. Use a follow-on planning issue or GitHub Project item for active scope, deliverables, dates, estimates, acceptance criteria, and review tracking. Use `.github/eki-inventory.yml` for durable application, deployment, maintainer, runbook, and support metadata.
+
+  - type: input
+    id: project-name
+    attributes:
+      label: Project name
+      placeholder: Project, client, or repository name
+    validations:
+      required: true
+
+  - type: input
+    id: intake-contact
+    attributes:
+      label: Intake contact
+      description: Person who can answer follow-up questions about this request.
+      placeholder: Name and GitHub username, if known
+    validations:
+      required: true
+
+  - type: input
+    id: project-owner
+    attributes:
+      label: Project owner / decision maker
+      description: Person responsible for project direction, access decisions, and coordination.
+      placeholder: Name and GitHub username, if known
+    validations:
+      required: true
+
+  - type: dropdown
+    id: contract-stage
+    attributes:
+      label: Contract or work stage
+      description: Pick the stage that best explains when GitHub or IT coordination is needed.
+      options:
+        - Pre-contracting / proposal
+        - Kickoff or project setup
+        - Active work
+        - Maintenance or support
+        - Closeout or archive
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: project-purpose
+    attributes:
+      label: Purpose, users, and expected outcome
+      description: Briefly explain what this project will do, who it supports, and what success looks like.
+      placeholder: "Example: Build a dashboard for monthly reporting, automate a recurring analysis, or coordinate model input updates."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: requested-support
+    attributes:
+      label: Requested GitHub, IT, or project support
+      description: Select the decisions or support this intake should route.
+      options:
+        - label: New repository or repository template setup.
+        - label: First commit or initial content review before merging to `main`.
+        - label: Existing repository onboarding, cleanup, or retrofit.
+        - label: GitHub access, teams, maintainers, outside collaborators, or permissions.
+        - label: GitHub Actions, automation, scheduled jobs, deployment, or CI/CD.
+        - label: Secrets, service accounts, API tokens, keys, connection strings, or other credentials.
+        - label: Hosting, databases, cloud resources, VPN, network access, software, or licenses.
+        - label: Data handling, privacy, security, AI/LLM, or policy review.
+        - label: I am not sure and would like help triaging the request.
+
+  - type: dropdown
+    id: repository-status
+    attributes:
+      label: Repository status
+      options:
+        - New repository needed
+        - Existing repository
+        - No repository expected yet
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: repository-visibility
+    attributes:
+      label: Expected repository visibility
+      options:
+        - Private
+        - Internal
+        - Public
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: data-and-risk
+    attributes:
+      label: Data, risk, and policy triggers
+      description: Select anything that may affect repository visibility, access, IT/security review, or approval before work starts.
+      options:
+        - label: The project may involve client confidential information.
+        - label: The project may involve regulated, sensitive, or restricted data.
+        - label: The project may connect to client, production, internal, or third-party systems.
+        - label: The project may involve external collaborators, client reviewers, or public-facing outputs.
+        - label: The project may use LLMs, AI-assisted development, or AI-generated outputs.
+        - label: I am not sure and would like help reviewing risk.
+
+  - type: textarea
+    id: infrastructure-needs
+    attributes:
+      label: Infrastructure, software, or IT needs
+      description: Summarize known needs. Detailed design, acceptance criteria, and delivery tracking belong in a follow-on planning record.
+      placeholder: "Example: private repository, GitHub Actions secrets, Azure hosting, SQL Server access, GIS data access, package installation, or IT review before launch."
+    validations:
+      required: false
+
+  - type: textarea
+    id: access-and-team-needs
+    attributes:
+      label: People, access, and reviewers
+      description: List expected contributors, maintainers, reviewers, outside collaborators, GitHub teams, or IT/security reviewers. Keep role details brief here; use a follow-on planning record for workstream responsibilities.
+      placeholder: "Example: project lead, developer(s), technical reviewer, IT reviewer, client reviewer, repository maintainer."
+    validations:
+      required: false
+
+  - type: input
+    id: target-timeline
+    attributes:
+      label: Target timeline
+      description: Include important kickoff, review, delivery, deployment, or closeout dates if known.
+      placeholder: "Example: kickoff 2026-06-15; first review 2026-07-01; delivery 2026-08-15"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: follow-on-records
+    attributes:
+      label: Follow-on records to create or update
+      description: Select likely next records. This avoids repeating detailed planning or inventory fields in the intake issue.
+      options:
+        - label: A follow-on planning issue or GitHub Project item is needed for active scope, deliverables, dates, estimates, acceptance criteria, and review tracking.
+        - label: An `.github/eki-inventory.yml` entry is needed for durable application, deployment, maintainer, runbook, and support metadata.
+        - label: Pull requests should link back to this intake issue or a follow-on planning issue.
+
+  - type: textarea
+    id: related-work
+    attributes:
+      label: Related repositories, issues, contracts, or systems
+      description: Link any existing repositories, proposals, contracts, tickets, dashboards, models, data systems, or prior work.
+    validations:
+      required: false
+
+  - type: textarea
+    id: open-questions
+    attributes:
+      label: Open questions or concerns
+      description: List anything the project team wants GitHub admins, reviewers, project managers, or IT to consider.
+    validations:
+      required: false

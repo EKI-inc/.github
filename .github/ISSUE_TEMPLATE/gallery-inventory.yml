@@ -1,0 +1,199 @@
+name: Application gallery inventory
+description: Collect application or tool metadata for the EKI application gallery.
+title: "Gallery inventory: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when you want a GitHub-rendered form instead of hand-editing `.github/eki-inventory.yml`.
+
+        The durable gallery record still lives in the source repository as `.github/eki-inventory.yml`. This issue captures the same information in a structured review format so a maintainer can create or update that YAML file.
+
+  - type: input
+    id: display-name
+    attributes:
+      label: Display name
+      description: Human-readable name shown in the gallery.
+      placeholder: "Example: MAPC NSWRTF Decision Support Tool"
+    validations:
+      required: true
+
+  - type: input
+    id: short-id
+    attributes:
+      label: Short stable ID
+      description: Lowercase identifier for generated anchors and source records.
+      placeholder: "Example: mapc-nswrtf-decision-support-tool"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: item-type
+    attributes:
+      label: Inventory item type
+      options:
+        - application
+        - dashboard
+        - data-pipeline
+        - model
+        - library
+        - template
+        - documentation
+        - other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: lifecycle-status
+    attributes:
+      label: Lifecycle status
+      options:
+        - planning
+        - active
+        - beta
+        - production
+        - maintenance
+        - deprecated
+        - archived
+        - unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Briefly explain what this item does, who it supports, and why staff would look for it.
+      placeholder: "Example: R Shiny dashboard for monthly reporting, scenario review, or operational decision support."
+    validations:
+      required: true
+
+  - type: input
+    id: repository-url
+    attributes:
+      label: Repository URL
+      placeholder: "https://github.com/EKI-inc/repo-name"
+    validations:
+      required: true
+
+  - type: input
+    id: project-reference
+    attributes:
+      label: Project ID or label
+      description: Use `unknown` if not available.
+      placeholder: "Example: C40338 / NSWRTF DST"
+    validations:
+      required: false
+
+  - type: textarea
+    id: maintainers
+    attributes:
+      label: Maintainers
+      description: List GitHub usernames or teams responsible for repository maintenance.
+      placeholder: |
+        @username
+        @team-name
+    validations:
+      required: true
+
+  - type: textarea
+    id: stakeholders
+    attributes:
+      label: Stakeholders and support contacts
+      description: List project owner, technical owner, IT contact, or support owner if known.
+      placeholder: |
+        Project owner:
+        Technical owner:
+        IT contact:
+    validations:
+      required: false
+
+  - type: textarea
+    id: capabilities
+    attributes:
+      label: Capabilities
+      description: Short discovery tags or phrases for what the item can do.
+      placeholder: |
+        dashboard
+        reporting
+        map viewer
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: data-risk
+    attributes:
+      label: Data, privacy, and policy flags
+      description: Select anything that should be visible to inventory reviewers. Do not include secrets or confidential details here.
+      options:
+        - label: May involve client confidential information.
+        - label: May involve regulated, sensitive, or restricted data.
+        - label: May use secrets, credentials, service accounts, or API tokens.
+        - label: May connect to client, production, internal, or third-party systems.
+        - label: May use LLMs, AI-assisted development, or AI-generated outputs.
+        - label: Unknown; reviewer should confirm.
+
+  - type: textarea
+    id: deployment
+    attributes:
+      label: Deployment environments and URLs
+      description: List environment names, URLs, cloud resources, and status. These URLs can appear in the gallery summary table.
+      placeholder: |
+        production: https://app.example.com, Azure resource group rg-example, status active
+        staging: TBD, status planned
+    validations:
+      required: false
+
+  - type: textarea
+    id: documentation
+    attributes:
+      label: Documentation links
+      description: Link README, architecture notes, runbook, support notes, or user docs.
+      placeholder: |
+        README: README.md
+        Architecture: docs/architecture.md
+        Runbook: TBD
+    validations:
+      required: false
+
+  - type: textarea
+    id: health-signals
+    attributes:
+      label: Health and automation signals
+      description: List build, test, code scanning, release, deployment, or backup workflow links.
+      placeholder: |
+        Build: .github/workflows/main.yml
+        Test: .github/workflows/pr-regression-tests.yml
+        Code scanning: TBD
+    validations:
+      required: false
+
+  - type: textarea
+    id: linked-records
+    attributes:
+      label: Linked records
+      description: Link related intake issue, project board, milestone, source PR, or support ticket.
+      placeholder: |
+        Intake issue:
+        Project board:
+        Current milestone:
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Gallery notes
+      description: Short milestones, support notes, review caveats, or success-story notes for the gallery entry.
+      placeholder: "Example: Launched May 2026; supports the project team."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: follow-up
+    attributes:
+      label: Follow-up
+      options:
+        - label: Create or update `.github/eki-inventory.yml` in the source repository.
+        - label: Add or update deployed app URLs in the gallery summary.
+        - label: Review README/intake/gallery overlap before copying detailed content.

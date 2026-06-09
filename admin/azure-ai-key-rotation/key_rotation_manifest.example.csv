@@ -1,2 +1,0 @@
-subscriptionId,resourceGroup,accountName,keyVaultName,secretName,owner,notes
-00000000-0000-0000-0000-000000000000,rg-ai-prod,example-ai-account,kv-example-prod,AZURE-OPENAI-API-KEY,Owner Name,Replace this row with the real Azure AI/Cognitive Services resource and Key Vault secret mapping.
