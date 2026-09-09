@@ -1,5 +1,5 @@
-name: Task
-description: Track a discrete unit of work, follow-up, fix, documentation update, or implementation step.
+name: Model Task
+description: Track a discrete unit of work for a model development workflow.
 title: "Task: "
 body:
   - type: markdown
@@ -7,14 +7,12 @@ body:
       value: |
         Use this form for actionable work that has a clear owner, outcome, and completion condition.
 
-        For early project routing, repository setup, IT/security review, or infrastructure decisions, use the Digital project / IT intake form instead.
-
   - type: input
     id: task-summary
     attributes:
       label: Task summary
       description: One sentence describing the work to complete.
-      placeholder: "Example: Add deployed app URLs to the gallery summary table."
+      placeholder: "Example: compile pumping rates for MAW package."
     validations:
       required: true
 
@@ -23,14 +21,12 @@ body:
     attributes:
       label: Task type
       options:
-        - Feature or enhancement
-        - Bug fix
-        - Documentation
-        - Template or process
-        - Data, model, dashboard, or report
-        - Infrastructure, automation, or CI/CD
-        - Cleanup or maintenance
-        - Research / spike
+        - Write model package
+        - Compile/process data
+        - Review/synthesize data for model component
+        - Template or process workflow
+        - Process or workflow for model execution/postprocessing
+        - Data request/decision point
         - Other
     validations:
       required: true
@@ -41,25 +37,26 @@ body:
       label: Task description
       description: Describe the work, context, and expected outcome. Include enough detail that another contributor can pick it up.
       placeholder: |
-        What needs to change?
-        Why does it matter?
-        What should be true when this is done?
+        What needs to be done?
+        What is the objective?
+        How should it be done?
+        What specific steps need to be taken?
+        What should be checked during this process?
     validations:
       required: true
 
   - type: textarea
-    id: linked-work
+    id: subtasks
     attributes:
-      label: Linked work
-      description: Link related issues, PRs, project items, intake records, user stories, tickets, or source systems.
+      label: Subtasks
+      description: Optional checklist for implementation steps.
       placeholder: |
-        Related to #
-        Blocks #
-        Intake issue:
-        External ticket:
+        - [ ] Update source file
+        - [ ] Run validation
+        - [ ] Open PR
     validations:
       required: false
-
+      
   - type: dropdown
     id: urgency
     attributes:
@@ -69,7 +66,6 @@ body:
         - Useful soon
         - Needed for active work
         - Blocking work
-        - Time-sensitive
         - Not sure
     validations:
       required: true
@@ -100,29 +96,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: subtasks
-    attributes:
-      label: Subtasks
-      description: Optional checklist for implementation steps.
-      placeholder: |
-        - [ ] Update source file
-        - [ ] Run validation
-        - [ ] Open PR
-    validations:
-      required: false
-
-  - type: textarea
-    id: review-needs
-    attributes:
-      label: Review needs
-      description: Name reviewers, subject matter experts, files, behavior, or decisions needing careful review.
-      placeholder: |
-        Suggested reviewer(s):
-        Files or decisions needing close review:
-    validations:
-      required: false
-
   - type: checkboxes
     id: risk-check
     attributes:
@@ -133,15 +106,3 @@ body:
         - label: This may affect GitHub Actions, automation, deployments, hosting, databases, or IT-managed systems.
         - label: This may use LLMs, AI-assisted development, or AI-generated outputs.
         - label: None of the above are expected.
-
-  - type: textarea
-    id: validation
-    attributes:
-      label: Validation plan
-      description: Describe how the task should be checked before closing.
-      placeholder: |
-        Commands:
-        Manual checks:
-        Screenshots/previews:
-    validations:
-      required: false
