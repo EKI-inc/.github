@@ -1,0 +1,108 @@
+name: Model Task
+description: Track a discrete unit of work for a model development workflow.
+title: "Task: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for actionable work that has a clear owner, outcome, and completion condition.
+
+  - type: input
+    id: task-summary
+    attributes:
+      label: Task summary
+      description: One sentence describing the work to complete.
+      placeholder: "Example: compile pumping rates for MAW package."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: task-type
+    attributes:
+      label: Task type
+      options:
+        - Write model package
+        - Compile/process data
+        - Review/synthesize data for model component
+        - Template or process workflow
+        - Process or workflow for model execution/postprocessing
+        - Data request/decision point
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: task-description
+    attributes:
+      label: Task description
+      description: Describe the work, context, and expected outcome. Include enough detail that another contributor can pick it up.
+      placeholder: |
+        What needs to be done?
+        What is the objective?
+        How should it be done?
+        What specific steps need to be taken?
+        What should be checked during this process?
+    validations:
+      required: true
+
+  - type: textarea
+    id: subtasks
+    attributes:
+      label: Subtasks
+      description: Optional checklist for implementation steps.
+      placeholder: |
+        - [ ] Update source file
+        - [ ] Run validation
+        - [ ] Open PR
+    validations:
+      required: false
+      
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      options:
+        - Not urgent
+        - Useful soon
+        - Needed for active work
+        - Blocking work
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Level of effort
+      options:
+        - Not specified
+        - Trivial
+        - Small
+        - Medium
+        - Large
+        - Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: List the conditions that must be met before this task is done.
+      placeholder: |
+        - [ ] The generated gallery includes deployed URLs in the summary table.
+        - [ ] The generated output is reproducible from the builder.
+        - [ ] Documentation explains where maintainers should update the source metadata.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: risk-check
+    attributes:
+      label: Risk check
+      options:
+        - label: This may involve client-confidential, regulated, sensitive, or restricted data.
+        - label: This may involve secrets, credentials, service accounts, tokens, or connection strings.
+        - label: This may affect GitHub Actions, automation, deployments, hosting, databases, or IT-managed systems.
+        - label: This may use LLMs, AI-assisted development, or AI-generated outputs.
+        - label: None of the above are expected.
