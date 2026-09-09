@@ -15,4 +15,4 @@ All EKI staff who are new to this organization should begin with the
 
 ## Questions or access requests
 
-Open a **Digital project / IT intake** issue using the issue form, or contact an EKI GitHub admin.
+Open a **Digital project / IT intake** issue using the issue form, or contact Helpdesk and/or an EKI GitHub admin.
