@@ -11,7 +11,7 @@ All EKI staff who are new to this organization should begin with the
 2. **Training** - hands-on Git and GitHub lessons via two learning paths (GitHub Desktop for beginners, Git Bash for command-line users)
 3. **IDE setup** - install guidance for VS Code, Git, GitHub Copilot, Python, and R
 
-> Note: `github_intro` is a private repository. If you cannot open the link, contact a GitHub admin to get invited to the organization first.
+> Note: `github_intro` is a private repository. If you cannot open the link, contact Helpdesk and/or a GitHub admin to get invited to the organization first.
 
 ## Questions or access requests
 
