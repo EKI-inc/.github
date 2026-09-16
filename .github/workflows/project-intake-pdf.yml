@@ -1,0 +1,117 @@
+name: Project intake PDF
+
+# Reusable workflow. Org repositories call this from a thin stub so intake
+# automation stays defined in one place. Workflows are never inherited from the
+# org .github repository, so each repository needs its own calling stub; only
+# the logic below is shared.
+
+on:
+  workflow_call:
+    inputs:
+      label:
+        description: Only render issues carrying this label. Pass an empty string to render every issue.
+        type: string
+        required: false
+        default: project-intake
+      tooling_ref:
+        description: Ref of EKI-inc/.github that provides the renderer.
+        type: string
+        required: false
+        default: main
+      retention_days:
+        description: How long to keep the PDF artifact.
+        type: number
+        required: false
+        default: 14
+      support_email:
+        description: Address that turns the PDF into a SolarWinds ticket.
+        type: string
+        required: false
+        default: support@ekiconsult.com
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  project-intake-pdf:
+    name: Project intake PDF
+    if: github.event_name == 'issues' && (inputs.label == '' || contains(github.event.issue.labels.*.name, inputs.label))
+    runs-on: ubuntu-latest
+
+    steps:
+      # EKI-inc/.github is public, so the caller's default GITHUB_TOKEN is
+      # enough to read it. No PAT or App installation token is required.
+      - name: Check out intake tooling
+        uses: actions/checkout@v4
+        with:
+          repository: EKI-inc/.github
+          ref: ${{ inputs.tooling_ref }}
+          path: intake-tooling
+          persist-credentials: false
+
+      - name: Render project intake PDF
+        id: intake-pdf
+        env:
+          PDF_NAME: project-intake-${{ github.event.repository.name }}-${{ github.event.issue.number }}.pdf
+        run: |
+          python3 intake-tooling/scripts/render_issue_pdf.py \
+            --event-json "$GITHUB_EVENT_PATH" \
+            --output "$PDF_NAME"
+          echo "pdf_name=$PDF_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Upload project intake PDF
+        id: upload-intake-pdf
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-intake-${{ github.event.repository.name }}-${{ github.event.issue.number }}
+          path: ${{ steps.intake-pdf.outputs.pdf_name }}
+          retention-days: ${{ inputs.retention_days }}
+          if-no-files-found: error
+
+      - name: Comment with SolarWinds handoff
+        uses: actions/github-script@v7
+        env:
+          INTAKE_PDF_URL: ${{ steps.upload-intake-pdf.outputs.artifact-url }}
+          SUPPORT_EMAIL: ${{ inputs.support_email }}
+        with:
+          script: |
+            const marker = "<!-- project-intake-manual-solarwinds -->";
+            const body = [
+              marker,
+              "Project intake received.",
+              "",
+              "Interim SolarWinds step:",
+              `1. Download the project intake PDF artifact: ${process.env.INTAKE_PDF_URL}`,
+              `2. Email the PDF to ${process.env.SUPPORT_EMAIL} to create the SolarWinds ticket.`,
+              "3. Comment with the SolarWinds ticket number after the ticket is created.",
+              "",
+              "SolarWinds ticket creation is manual for now; the ticket-number comment records the IT handoff.",
+            ].join("\n");
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+            const existing = comments.find(
+              (comment) => comment.user.type === "Bot" && comment.body.includes(marker)
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }

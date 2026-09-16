@@ -1,0 +1,6 @@
+{
+  "name": "Project intake PDF",
+  "description": "Render a downloadable PDF of each project-intake issue and comment with the SolarWinds handoff steps.",
+  "iconName": "octicon file-badge",
+  "categories": ["Automation"]
+}

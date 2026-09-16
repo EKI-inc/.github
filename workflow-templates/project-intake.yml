@@ -1,0 +1,21 @@
+name: Project intake
+
+# Thin stub. All logic lives in EKI-inc/.github so it can be updated in one
+# place; this file only supplies the trigger, which Actions requires to be
+# present in each repository.
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+      - labeled
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  project-intake-pdf:
+    uses: EKI-inc/.github/.github/workflows/project-intake-pdf.yml@main
