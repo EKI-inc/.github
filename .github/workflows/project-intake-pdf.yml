@@ -24,7 +24,11 @@ on:
         required: false
         default: 'project-intake,needs-triage'
       tooling_ref:
-        description: Ref of EKI-inc/.github that provides the renderer.
+        description: >-
+          Ref of EKI-inc/.github providing the renderer. Must match the ref the
+          caller pins this workflow to. Actions resolves the workflow ref and
+          this checkout independently, so calling @some-branch while leaving
+          this at main silently renders with main's copy of the script.
         type: string
         required: false
         default: main
@@ -79,6 +83,17 @@ jobs:
             gh api "repos/$REPO/labels" -f "name=$label" -f "color=ededed"               --silent >/dev/null 2>&1 || true
             gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --add-label "$label"               >/dev/null 2>&1 || echo "Could not apply label: $label"
           done
+
+      # The workflow ref and tooling_ref resolve independently, so a mismatch
+      # surfaces here as a missing file. Fail with the cause, not a traceback.
+      - name: Verify renderer is present
+        env:
+          TOOLING_REF: ${{ inputs.tooling_ref }}
+        run: |
+          if [[ ! -f intake-tooling/scripts/render_issue_pdf.py ]]; then
+            echo "::error::render_issue_pdf.py not found in EKI-inc/.github@${TOOLING_REF}."                  "Pass tooling_ref matching the ref this workflow is called at."
+            exit 1
+          fi
 
       - name: Render project intake PDF
         id: intake-pdf
