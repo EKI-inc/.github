@@ -8,11 +8,21 @@ name: Project intake PDF
 on:
   workflow_call:
     inputs:
-      label:
-        description: Only render issues carrying this label. Pass an empty string to render every issue.
+      title_prefix:
+        description: Render issues whose title starts with this prefix. The intake form sets it, and unlike labels it survives org-default template inheritance.
         type: string
         required: false
-        default: project-intake
+        default: 'Digital project intake:'
+      label:
+        description: Optional extra match for repositories that already define the intake label. Cannot be the only gate, because form-declared labels are dropped in repositories where the label does not exist.
+        type: string
+        required: false
+        default: ''
+      apply_labels:
+        description: Comma-separated triage labels to create if missing and apply. Pass an empty string to leave labels alone.
+        type: string
+        required: false
+        default: 'project-intake,needs-triage'
       tooling_ref:
         description: Ref of EKI-inc/.github that provides the renderer.
         type: string
@@ -36,7 +46,10 @@ permissions:
 jobs:
   project-intake-pdf:
     name: Project intake PDF
-    if: github.event_name == 'issues' && (inputs.label == '' || contains(github.event.issue.labels.*.name, inputs.label))
+    # Gate on the title prefix, not the label. Only 1 of 60 org repositories
+    # defines the intake label, and inherited org-default templates did not
+    # apply it, so a label gate silently matches nothing org-wide.
+    if: github.event_name == 'issues' && (startsWith(github.event.issue.title, inputs.title_prefix) || (inputs.label != '' && contains(github.event.issue.labels.*.name, inputs.label)))
     runs-on: ubuntu-latest
 
     steps:
@@ -49,6 +62,23 @@ jobs:
           ref: ${{ inputs.tooling_ref }}
           path: intake-tooling
           persist-credentials: false
+
+      - name: Apply triage labels
+        if: inputs.apply_labels != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APPLY_LABELS: ${{ inputs.apply_labels }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          IFS=',' read -ra labels <<< "$APPLY_LABELS"
+          for label in "${labels[@]}"; do
+            label="$(echo "$label" | xargs)"
+            [[ -z "$label" ]] && continue
+            # Creating a label that already exists returns 422; that is fine.
+            gh api "repos/$REPO/labels" -f "name=$label" -f "color=ededed"               --silent >/dev/null 2>&1 || true
+            gh issue edit "$ISSUE_NUMBER" --repo "$REPO" --add-label "$label"               >/dev/null 2>&1 || echo "Could not apply label: $label"
+          done
 
       - name: Render project intake PDF
         id: intake-pdf
