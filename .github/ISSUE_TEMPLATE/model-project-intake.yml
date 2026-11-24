@@ -1,0 +1,393 @@
+name: Groundwater Modeling Project Intake Form
+description: Detailed project and model intake for repository, IT, modeling, architecture, HPC, and hosting coordination.
+title: 'Groundwater Modeling Project Intake: '
+body:
+
+# ===========================================================================
+# Intro
+# ===========================================================================
+- type: markdown
+  attributes:
+    value: |
+      > [!TIP]
+      > **Who completes this form:** the Technical Lead, in consultation with the Project Manager.
+      > Fields marked with a red asterisk (*) are required. After you submit, a completion summary is posted as a
+      > comment on the issue and updates automatically whenever the issue is edited.
+      > Answers also appear in the repository README and its commit history.
+
+      | 🗂️ **1 · Project Identity** | 💧 **2 · Model Definition** | 🏗️ **3 · Technical Architecture** |
+      |:---:|:---:|:---:|
+      | Client, contacts, data, timeline | Description, platform, location, applications, runtime, storage | Workflows, environment, HPC, hosting |
+
+# ===========================================================================
+# Section 1: Project Identity
+# ===========================================================================
+- type: markdown
+  attributes:
+    value: |
+      <!-- section: Project Identity -->
+
+      ---
+
+      # 🗂️ Section 1 of 3 · Project Identity
+      *Client, project code, points of contact, data locations, confidentiality, and timeline.*
+- type: markdown
+  attributes:
+    value: |
+      ### 🏷️ Project Details
+- type: input
+  id: client-name
+  attributes:
+    label: Client Name
+  validations:
+    required: true
+- type: input
+  id: project-name
+  attributes:
+    label: Project Name
+    placeholder: Project or client project name
+  validations:
+    required: true
+- type: input
+  id: project-code
+  attributes:
+    label: EKI Project Code
+    placeholder: e.g., C50238.00
+  validations:
+    required: true
+- type: markdown
+  attributes:
+    value: |
+      ### 👥 Contacts and Data
+- type: textarea
+  id: points-of-contact
+  attributes:
+    label: Points of Contact
+    description: List the project contacts and their roles (e.g., Project Manager, Technical Lead, Repository Administrator).
+      Tag any contacts you want assigned to this issue using their GitHub @username.
+    placeholder: |
+      e.g.,
+      Project Manager: Jane Smith
+      Technical Lead: John Doe
+      Repository Administrator: Alex Lee (@github-username)
+  validations:
+    required: true
+- type: markdown
+  attributes:
+    value: |
+      ### 🔒 Access and Permissions
+- type: dropdown
+  id: confidentiality-required
+  attributes:
+    label: Confidentiality or Access Restrictions?
+    description: Select Yes if the project has confidentiality, repository visibility, or access restrictions.
+    options:
+    - 'Yes'
+    - 'No'
+  validations:
+    required: true
+- type: textarea
+  id: permission-settings
+  attributes:
+    label: Permission Settings
+    description: If Yes above, describe the required repository visibility, team/user access, and any other permission settings.
+      If No, leave blank.
+    placeholder: e.g., Private repository; read access limited to the project team; client users require outside-collaborator
+      access.
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### 📅 Project Timeline
+- type: input
+  id: project-start
+  attributes:
+    label: Start Date (Month and Year)
+    description: Enter the start month in YYYY-MM format.
+    placeholder: '2027-01'
+  validations:
+    required: true
+- type: input
+  id: project-end
+  attributes:
+    label: End Date (Month and Year)
+    description: Enter the end month in YYYY-MM format, or enter TBD or leave it blank if unknown.
+    placeholder: '2027-12'
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### 🗂️ Data Locations
+- type: textarea
+  id: project-data-locations
+  attributes:
+    label: Project Folder Location(s)
+    description: Provide the main Egnyte/Azure paths and/or hyperlinks where project data are stored.
+    placeholder: e.g., Egnyte (Z:/) project folder path, Azure storage container, or SharePoint link.
+  validations:
+    required: true
+- type: textarea
+  id: model-output-locations
+  attributes:
+    label: Model Output File Locations
+    description: Provide Egnyte/Azure file paths and/or hyperlinks where model outputs are stored.
+  validations:
+    required: false
+- type: textarea
+  id: ancillary-data-locations
+  attributes:
+    label: Ancillary Project Data Locations
+    description: Provide Egnyte/Azure paths and/or hyperlinks for tabular inputs, GIS shapefiles, rasters, and other ancillary
+      data used for model development or post-processing.
+  validations:
+    required: false
+
+# ===========================================================================
+# Section 2: Model Definition
+# ===========================================================================
+- type: markdown
+  attributes:
+    value: |
+      <!-- section: Model Definition -->
+
+      ---
+
+      # 💧 Section 2 of 3 · Model Definition
+      *Model description, platform and version, location, applications, runtime, and storage.*
+- type: markdown
+  attributes:
+    value: |
+      ### 📝 Model Overview
+- type: textarea
+  id: model-description
+  attributes:
+    label: Model Description
+    description: Provide a 1–2 sentence description of the model's origin/history, purpose, and ongoing use.
+    placeholder: e.g., Developed by EKI on behalf of a client to support SGMA compliance, subsidence analysis, or basin yield
+      estimation.
+  validations:
+    required: true
+- type: markdown
+  attributes:
+    value: |
+      ### 🧮 Platform and Version
+- type: dropdown
+  id: model-platform
+  attributes:
+    label: Modeling Platform
+    description: If Other, specify the platform in the next field.
+    options:
+    - MODFLOW 6
+    - MODFLOW-OWHM
+    - MODFLOW-NWT/2005
+    - MODFLOW-USG
+    - IWFM
+    - GSFLOW
+    - IDC
+    - SWB
+    - PRMS
+    - TIMFLOW/TTIM
+    - Other
+  validations:
+    required: true
+- type: input
+  id: model-platform-other
+  attributes:
+    label: Other Modeling Platform
+    description: Only needed if Other was selected above.
+    placeholder: Specify the modeling platform
+  validations:
+    required: false
+- type: input
+  id: model-version
+  attributes:
+    label: Model Version
+    description: Optional.
+    placeholder: e.g., SWB 2.0
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### 🗺️ Location and Applications
+- type: textarea
+  id: location
+  attributes:
+    label: Location
+    description: Describe the geographic area covered by the model and provide a shapefile or map reference if available.
+    placeholder: e.g., Tule Subbasin; include boundary/map reference or repository link if available.
+  validations:
+    required: true
+- type: checkboxes
+  id: model-applications
+  attributes:
+    label: Model Applications
+    description: Select the primary use cases for this model.
+    options:
+    - label: SGMA
+    - label: Litigation
+    - label: Water supply
+    - label: Fate and transport
+    - label: Subsidence
+    - label: Water budget
+    - label: Prediction and uncertainty
+    - label: Other
+  validations:
+    required: true
+- type: textarea
+  id: other-model-application
+  attributes:
+    label: Other Application Details
+    description: If you selected Other above, describe the additional model application here.
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### ⚙️ Runtime and Storage
+- type: input
+  id: runtime-hours
+  attributes:
+    label: Runtime (Hours)
+    description: Optional. Approximate runtime for a single model run, in hours (decimals allowed).
+    placeholder: e.g., 2.75
+  validations:
+    required: false
+- type: input
+  id: storage-per-run
+  attributes:
+    label: Storage Per Run
+    description: Optional. Enter the number and unit (KB, MB, GB, or TB) for the input and output files of a single model run.
+    placeholder: e.g., 25 GB
+  validations:
+    required: false
+
+# ===========================================================================
+# Section 3: Technical Architecture
+# ===========================================================================
+- type: markdown
+  attributes:
+    value: |
+      <!-- section: Technical Architecture -->
+
+      ---
+
+      # 🏗️ Section 3 of 3 · Technical Architecture
+      *Model workflows, execution environment, components, HPC and hosting needs, and related systems.*
+- type: textarea
+  id: model-workflows
+  attributes:
+    label: Model Workflows
+    description: Briefly describe major scripted workflows and where they are located in the repository, including links to
+      relevant subfolders/scripts where available.
+    placeholder: Describe preprocessing, model execution, post-processing, automation, and relevant repository paths/links.
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### 🖥️ Execution Environment
+- type: textarea
+  id: architecture-summary
+  attributes:
+    label: Summary of Architecture
+    description: Briefly describe the model execution environment and architecture.
+    placeholder: 'e.g., Model files are copied from the local repo and run on the C: drive of an Azure VM; or model is compiled
+      into a Docker image for execution.'
+  validations:
+    required: false
+- type: textarea
+  id: architecture-components
+  attributes:
+    label: Architecture Components
+    description: Describe the components included in the model workflow and how they relate to one another.
+    placeholder: |
+      e.g., Conda environment, Docker image, PEST/pyemu workbook, scripts, HPC resources, web services, or other components.
+      Notes: Include versions, dependencies, repository paths/links, or other details that would help reproduce the workflow.
+  validations:
+    required: false
+- type: textarea
+  id: architecture-component-paths
+  attributes:
+    label: Architecture Component Paths / Links
+    description: Provide relevant repository paths or hyperlinks for architecture components, if available.
+    placeholder: |
+      e.g., env.yml, Dockerfile, PEST/pyemu workbooks/scripts, workflow files, service configuration, or other repository links.
+      Notes: Include enough detail for an administrator or reviewer to locate the relevant files.
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### ⚡ HPC
+- type: dropdown
+  id: hpc-required
+  attributes:
+    label: HPC Cluster Required?
+    description: Select Yes to assign the IT administrator to this issue.
+    options:
+    - 'Yes'
+    - 'No'
+  validations:
+    required: false
+- type: textarea
+  id: hpc-details
+  attributes:
+    label: HPC Architecture
+    description: Describe the HPC architecture and requirements. Leave blank if not applicable.
+    placeholder: |
+      e.g., HPC cluster, scheduler/queue, CPU/GPU requirements, Docker/Singularity image, data staging, and execution workflow.
+      Notes: Include relevant repository paths/links, image references, scripted workflows, and GitHub Actions workflows where available.
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### 🌐 Web Hosting
+- type: dropdown
+  id: web-hosting-required
+  attributes:
+    label: Web Hosting Required?
+    description: Select Yes to assign the IT administrator to this issue.
+    options:
+    - 'Yes'
+    - 'No'
+  validations:
+    required: false
+- type: textarea
+  id: web-hosting-details
+  attributes:
+    label: Hosting Architecture
+    description: Describe the hosting architecture and requirements. Leave blank if not applicable.
+    placeholder: |
+      e.g., Azure service/VM, containerized application, web service, storage, networking, authentication, and deployment workflow.
+      Notes: Include relevant repository paths/links, image references, scripted workflows, and GitHub Actions workflows where available.
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: |
+      ### 🔗 Related Work and Open Questions
+- type: textarea
+  id: related-work
+  attributes:
+    label: Related Repositories, Issues, Contracts, or Systems
+    description: Link existing repositories, proposals, contracts, tickets, dashboards, models, data systems, or prior work.
+  validations:
+    required: false
+- type: textarea
+  id: open-questions
+  attributes:
+    label: Open Questions or Concerns
+    description: List anything the project team wants GitHub administrators, reviewers, project managers, or IT to consider.
+  validations:
+    required: false
+
+- type: markdown
+  attributes:
+    value: |
+      ---
+
+      ✅ **All done!** Submit the issue to see your completion summary.
