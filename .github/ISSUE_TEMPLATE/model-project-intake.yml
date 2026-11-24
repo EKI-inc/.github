@@ -62,8 +62,8 @@ body:
 - type: textarea
   id: points-of-contact
   attributes:
-    label: Points of Contact
-    description: List the project contacts and their roles (e.g., Project Manager, Technical Lead, Repository Administrator).
+    label: EKI Points of Contact
+    description: List the EKI project contacts and their roles (e.g., Project Manager, Technical Lead, Repository Administrator).
       Tag any contacts you want assigned to this issue using their GitHub @username.
     placeholder: |
       e.g.,
@@ -146,7 +146,7 @@ body:
 - type: markdown
   attributes:
     value: |
-      ### QA/QC Protocols
+      ### ✅ QA/QC Protocols
 - type: input
   id: primary-qa-qc
   attributes:
@@ -278,8 +278,8 @@ body:
   id: storage-per-run
   attributes:
     label: Storage Per Run (GB)
-    description: Optional. Enter the number and unit (KB, MB, GB, or TB) for the input and output files of a single model run.
-    placeholder: e.g., 25 GB
+    description: Optional. Approximate storage footprint in GB for the input and output files of a single model run.
+    placeholder: e.g., 25
   validations:
     required: false
 
