@@ -6,6 +6,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 concurrency:
   group: intake-progress-${{ github.event.issue.number }}
@@ -34,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
 
-      - name: Assign intake issue, post summary, and update README
+      - name: Assign intake issue, post summary, and propose intake updates
         run: python .github/scripts/model_project_intake_progress.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

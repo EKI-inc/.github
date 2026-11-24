@@ -13,7 +13,7 @@ body:
       > **Who completes this form:** the Technical Lead, in consultation with the Project Manager.
       > Fields marked with a red asterisk (*) are required. After you submit, a completion summary is posted as a
       > comment on the issue and updates automatically whenever the issue is edited.
-      > Answers also appear in the repository README and its commit history.
+      > The workflow opens a pull request with your answers in the project intake YAML and README.
 
       | 🗂️ **1 · Project Identity** | 💧 **2 · Model Definition** | 🏗️ **3 · Technical Architecture** |
       |:---:|:---:|:---:|
@@ -143,6 +143,25 @@ body:
       data used for model development or post-processing.
   validations:
     required: false
+- type: markdown
+  attributes:
+    value: |
+      ### QA/QC Protocols
+- type: input
+  id: primary-qa-qc
+  attributes:
+    label: Primary QA/QC Reviewer
+    description: Enter at least one GitHub @username for project QA/QC. The workflow requests their review on the intake pull request.
+    placeholder: '@github-username'
+  validations:
+    required: true
+- type: textarea
+  id: qa-qc-protocols
+  attributes:
+    label: QA/QC Protocols
+    description: Outline any project-specific QA/QC procedures, review checkpoints, or standards to follow.
+  validations:
+    required: false
 
 # ===========================================================================
 # Section 2: Model Definition
@@ -216,7 +235,7 @@ body:
   id: location
   attributes:
     label: Location
-    description: Describe the geographic area covered by the model and provide a shapefile or map reference if available.
+    description: Describe the geographic area covered by the model and provide a filepath to a shapefile or map reference if available.
     placeholder: e.g., Tule Subbasin; include boundary/map reference or repository link if available.
   validations:
     required: true
@@ -258,7 +277,7 @@ body:
 - type: input
   id: storage-per-run
   attributes:
-    label: Storage Per Run
+    label: Storage Per Run (GB)
     description: Optional. Enter the number and unit (KB, MB, GB, or TB) for the input and output files of a single model run.
     placeholder: e.g., 25 GB
   validations:
@@ -276,33 +295,28 @@ body:
 
       # 🏗️ Section 3 of 3 · Technical Architecture
       *Model workflows, execution environment, components, HPC and hosting needs, and related systems.*
+- type: markdown
+  attributes:
+    value: |
+      ### 🚀 Model Workflows
 - type: textarea
   id: model-workflows
   attributes:
-    label: Model Workflows
-    description: Briefly describe major scripted workflows and where they are located in the repository, including links to
-      relevant subfolders/scripts where available.
+    label: Execution Workflows
+    description: Briefly describe workflows to prepare, run and postprocess model files and where they are located in the repository, 
+      including links to relevant subfolders/scripts where available.
     placeholder: Describe preprocessing, model execution, post-processing, automation, and relevant repository paths/links.
   validations:
     required: false
 - type: markdown
   attributes:
     value: |
-      ### 🖥️ Execution Environment
-- type: textarea
-  id: architecture-summary
-  attributes:
-    label: Summary of Architecture
-    description: Briefly describe the model execution environment and architecture.
-    placeholder: 'e.g., Model files are copied from the local repo and run on the C: drive of an Azure VM; or model is compiled
-      into a Docker image for execution.'
-  validations:
-    required: false
+      ### 🖥️ Model Architecture
 - type: textarea
   id: architecture-components
   attributes:
     label: Architecture Components
-    description: Describe the components included in the model workflow and how they relate to one another.
+    description: Describe the components included in the model execution workflow and how they relate to one another.
     placeholder: |
       e.g., Conda environment, Docker image, PEST/pyemu workbook, scripts, HPC resources, web services, or other components.
       Notes: Include versions, dependencies, repository paths/links, or other details that would help reproduce the workflow.
